@@ -1,492 +1,432 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Observador del Estudiante - I.E.N. Agustín Codazzi</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        
-        .form-content {
-            padding: 40px;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-        
-        label .required {
-            color: #e74c3c;
-        }
-        
-        input[type="text"],
-        input[type="date"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .row-three {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-        }
-        
-        select {
-            cursor: pointer;
-            background-color: white;
-        }
-        
-        .tipo-observacion {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-        
-        .jornada-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        .radio-option {
-            position: relative;
-        }
-        
-        .radio-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-        }
-        
-        .radio-option label {
-            display: block;
-            padding: 12px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .radio-option input[type="radio"]:checked + label {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        
-        .radio-option input[type="radio"]:focus + label {
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        }
-        
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-        
-        .btn-submit:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .error-message {
-            color: #e74c3c;
-            font-size: 13px;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .success-message {
-            background: #2ecc71;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            text-align: center;
-        }
-        
-        .error-alert {
-            background: #e74c3c;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: none;
-            text-align: center;
-        }
-        
-        @media (max-width: 768px) {
-            .row, .row-three {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-content {
-                padding: 25px;
-            }
-            
-            .header h1 {
-                font-size: 22px;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Observador del Estudiante - I.E.N. Agustín Codazzi</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh; padding: 20px;
+  }
+  .container {
+    max-width: 800px; margin: 0 auto; background: white;
+    border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+  .header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white; padding: 30px; text-align: center;
+  }
+  .header h1 { font-size: 28px; margin-bottom: 10px; }
+  .header p {
+    font-size: 14px; opacity: 0.9;
+  }
+  .form-content { padding: 40px; }
+  .form-group {
+    margin-bottom: 25px;
+  }
+  label {
+    display: block; margin-bottom: 8px;
+    color: #333; font-weight: 600; font-size: 14px;
+  }
+  label .required { color: #e74c3c; }
+  input[type="text"], input[type="date"], select, textarea {
+    width: 100%; padding: 12px 15px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    font-size: 15px; transition: all 0.3s ease; font-family: inherit;
+  }
+  input[type="text"]:focus, input[type="date"]:focus,
+  select:focus, textarea:focus {
+    outline: none; border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+  textarea { min-height: 120px; resize: vertical; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .row-three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  select { cursor: pointer; background-color: white; }
+  .tipo-observacion {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  .jornada-group {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+  }
+  .radio-option {
+    position: relative;
+  }
+  .radio-option input[type="radio"] {
+    position: absolute; opacity: 0;
+  }
+  .radio-option label {
+    display: block; padding: 12px 20px;
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    text-align: center; cursor: pointer;
+    transition: all 0.3s ease; font-weight: 500;
+  }
+  .radio-option input[type="radio"]:checked + label {
+    background: #667eea; color: white; border-color: #667eea;
+  }
+  .radio-option input[type="radio"]:focus + label {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  }
+  .btn-submit {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; border: none; border-radius: 8px;
+    font-size: 16px; font-weight: 600; cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  }
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+  .btn-submit:disabled {
+    opacity: 0.6; cursor: not-allowed; transform: none;
+  }
+  .error-message {
+    color: #e74c3c; font-size: 13px; margin-top: 5px;
+    display: none;
+  }
+  .success-message {
+    background: #2ecc71; color: white; padding: 15px;
+    border-radius: 8px; margin-bottom: 20px;
+    display: none; text-align: center;
+  }
+  .error-alert {
+    background: #e74c3c; color: white; padding: 15px;
+    border-radius: 8px; margin-bottom: 20px;
+    display: none; text-align: center;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📋 Observador del Estudiante</h1>
-            <p>Institución Educativa Nacional Agustín Codazzi</p>
-            <p style="font-style: italic; margin-top: 5px;">Hacia la excelencia académica</p>
-        </div>
-        
-        <div class="form-content">
-            <div class="success-message" id="successMessage">
-                ✅ Observación registrada exitosamente en Google Sheets
-            </div>
-            
-            <div class="error-alert" id="errorAlert">
-                ❌ Error al guardar la observación. Por favor, intente nuevamente.
-            </div>
-            
-            <form id="observadorForm" method="POST">
-                <div class="row-three">
-                    <div class="form-group">
-                        <label for="fecha">Fecha <span class="required">*</span></label>
-                        <input type="date" id="fecha" name="Fecha" required>
-                        <span class="error-message" id="fechaError">La fecha es obligatoria</span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="grado">Grado <span class="required">*</span></label>
-                        <select id="grado" name="Grado" required>
-                            <option value="">Seleccione un grado</option>
-                            <option value="Primero">Primero</option>
-                            <option value="Segundo">Segundo</option>
-                            <option value="Tercero">Tercero</option>
-                            <option value="Cuarto">Cuarto</option>
-                            <option value="Quinto">Quinto</option>
-                        </select>
-                        <span class="error-message" id="gradoError">Seleccione un grado</span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="grupo">Grupo <span class="required">*</span></label>
-                        <select id="grupo" name="Grupo" required>
-                            <option value="">Seleccione un grupo</option>
-                            <option value="Uno">Uno</option>
-                            <option value="Dos">Dos</option>
-                            <option value="Tres">Tres</option>
-                            <option value="Cuatro">Cuatro</option>
-                        </select>
-                        <span class="error-message" id="grupoError">Seleccione un grupo</span>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Jornada <span class="required">*</span></label>
-                    <div class="jornada-group">
-                        <div class="radio-option">
-                            <input type="radio" id="manana" name="Jornada" value="Mañana" required>
-                            <label for="manana">☀️ Mañana</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="tarde" name="Jornada" value="Tarde">
-                            <label for="tarde">🌙 Tarde</label>
-                        </div>
-                    </div>
-                    <span class="error-message" id="jornadaError">Seleccione una jornada</span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nombreEstudiante">Nombre del Estudiante <span class="required">*</span></label>
-                    <input type="text" id="nombreEstudiante" name="NombreEstudiante" 
-                           placeholder="Nombres y apellidos completos" required>
-                    <span class="error-message" id="nombreError">El nombre es obligatorio</span>
-                </div>
-                
-                <div class="form-group">
-                    <label>Tipo de Observación <span class="required">*</span></label>
-                    <div class="tipo-observacion">
-                        <div class="radio-option">
-                            <input type="radio" id="academica" name="TipoObservacion" value="Académica" required>
-                            <label for="academica">📚 Académica</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="disciplinaria" name="TipoObservacion" value="Disciplinaria">
-                            <label for="disciplinaria">⚠️ Disciplinaria</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="positiva" name="TipoObservacion" value="Positiva">
-                            <label for="positiva">⭐ Positiva</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="convivencia" name="TipoObservacion" value="Convivencia">
-                            <label for="convivencia">🤝 Convivencia</label>
-                        </div>
-                    </div>
-                    <span class="error-message" id="tipoError">Seleccione un tipo de observación</span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="descripcion">Descripción de la Observación <span class="required">*</span></label>
-                    <textarea id="descripcion" name="Descripcion" 
-                              placeholder="Describa detalladamente la situación observada..." required></textarea>
-                    <span class="error-message" id="descripcionError">La descripción es obligatoria</span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="acciones">Acciones Tomadas</label>
-                    <textarea id="acciones" name="AccionesTomadas" 
-                              placeholder="Describa las acciones correctivas, compromisos o seguimiento (opcional)"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="docente">Docente que Reporta</label>
-                    <input type="text" id="docente" name="DocenteReporta" 
-                           value="Mgtr. Jesús David Álvarez Sáez" readonly 
-                           style="background-color: #f5f5f5;">
-                </div>
-                
-                <button type="submit" class="btn-submit" id="submitBtn">Registrar Observación</button>
-            </form>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>📋 Observador del Estudiante</h1>
+      <p>Institución Educativa Nacional Agustín Codazzi</p>
+      <p style="font-style: italic; margin-top: 5px;">Hacia la excelencia académica</p>
     </div>
-    
-    <script>
-        // Establecer fecha actual por defecto
-        document.getElementById('fecha').valueAsDate = new Date();
-        
-        const form = document.getElementById('observadorForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const successMessage = document.getElementById('successMessage');
-        const errorAlert = document.getElementById('errorAlert');
-        
-        // URL de Google Apps Script
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyCRk1P9i6bJ5wBDTqipRfd6-DBCdb0lMqi6ux1LPRgG6Rnl_n0FulG8I8nVVBMprFb/exec';
-        
-        // Validación del formulario
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Ocultar mensajes previos
-            successMessage.style.display = 'none';
-            errorAlert.style.display = 'none';
-            
-            // Limpiar mensajes de error previos
-            const errorMessages = document.querySelectorAll('.error-message');
-            errorMessages.forEach(msg => msg.style.display = 'none');
-            
-            let isValid = true;
-            
-            // Validar fecha
-            const fecha = document.getElementById('fecha');
-            if (!fecha.value) {
-                document.getElementById('fechaError').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validar grado
-            const grado = document.getElementById('grado');
-            if (!grado.value) {
-                document.getElementById('gradoError').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validar grupo
-            const grupo = document.getElementById('grupo');
-            if (!grupo.value) {
-                document.getElementById('grupoError').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validar jornada
-            const jornada = document.querySelector('input[name="Jornada"]:checked');
-            if (!jornada) {
-                document.getElementById('jornadaError').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validar nombre del estudiante
-            const nombre = document.getElementById('nombreEstudiante');
-            if (!nombre.value.trim() || nombre.value.trim().length < 3) {
-                document.getElementById('nombreError').style.display = 'block';
-                document.getElementById('nombreError').textContent = 
-                    'El nombre debe tener al menos 3 caracteres';
-                isValid = false;
-            }
-            
-            // Validar tipo de observación
-            const tipoObservacion = document.querySelector('input[name="TipoObservacion"]:checked');
-            if (!tipoObservacion) {
-                document.getElementById('tipoError').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validar descripción
-            const descripcion = document.getElementById('descripcion');
-            if (!descripcion.value.trim() || descripcion.value.trim().length < 10) {
-                document.getElementById('descripcionError').style.display = 'block';
-                document.getElementById('descripcionError').textContent = 
-                    'La descripción debe tener al menos 10 caracteres';
-                isValid = false;
-            }
-            
-            // Si todo es válido, enviar a Google Sheets
-            if (isValid) {
-                // Deshabilitar botón para evitar doble envío
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Guardando...';
-                
-                const formData = new FormData(form);
-                
-                fetch(scriptURL, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Respuesta del servidor:', data);
-                    
-                    if (data.result === 'success') {
-                        // Mostrar mensaje de éxito
-                        successMessage.style.display = 'block';
-                        
-                        // Resetear formulario
-                        form.reset();
-                        document.getElementById('fecha').valueAsDate = new Date();
-                        
-                        // Scroll hacia arriba para ver el mensaje
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        
-                        // Ocultar mensaje después de 5 segundos
-                        setTimeout(() => {
-                            successMessage.style.display = 'none';
-                        }, 5000);
-                    } else {
-                        // Mostrar mensaje de error
-                        errorAlert.style.display = 'block';
-                        errorAlert.textContent = '❌ Error: ' + (data.error || 'No se pudo guardar');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al enviar:', error);
-                    errorAlert.style.display = 'block';
-                    errorAlert.textContent = '❌ Error de conexión. Verifique su conexión a internet e intente nuevamente.';
-                })
-                .finally(() => {
-                    // Rehabilitar botón
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Registrar Observación';
-                });
-            }
+
+    <div class="form-content">
+      <div class="success-message" id="successMessage">
+        ✅ Observación registrada exitosamente en Google Sheets
+      </div>
+
+      <div class="error-alert" id="errorAlert">
+        ❌ Error al guardar la observación. Por favor, intente nuevamente.
+      </div>
+
+      <form id="observadorForm" method="POST">
+        <div class="row-three">
+          <div class="form-group">
+            <label for="fecha">Fecha <span class="required">*</span></label>
+            <input type="date" id="fecha" name="Fecha" required />
+            <span class="error-message" id="fechaError">La fecha es obligatoria</span>
+          </div>
+          <div class="form-group">
+            <label for="grado">Grado <span class="required">*</span></label>
+            <select id="grado" name="Grado" required>
+              <option value="">Seleccione un grado</option>
+              <option value="Primero">Primero</option>
+              <option value="Segundo">Segundo</option>
+              <option value="Tercero">Tercero</option>
+              <option value="Cuarto">Cuarto</option>
+              <option value="Quinto">Quinto</option>
+            </select>
+            <span class="error-message" id="gradoError">Seleccione un grado</span>
+          </div>
+          <div class="form-group">
+            <label for="grupo">Grupo <span class="required">*</span></label>
+            <select id="grupo" name="Grupo" required>
+              <option value="">Seleccione un grupo</option>
+              <option value="Uno">Uno</option>
+              <option value="Dos">Dos</option>
+              <option value="Tres">Tres</option>
+              <option value="Cuatro">Cuatro</option>
+            </select>
+            <span class="error-message" id="grupoError">Seleccione un grupo</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Jornada <span class="required">*</span></label>
+          <div class="jornada-group">
+            <div class="radio-option">
+              <input type="radio" id="manana" name="Jornada" value="Mañana" required />
+              <label for="manana">☀️ Mañana</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="tarde" name="Jornada" value="Tarde" />
+              <label for="tarde">🌙 Tarde</label>
+            </div>
+          </div>
+          <span class="error-message" id="jornadaError">Seleccione una jornada</span>
+        </div>
+
+        <div class="form-group">
+          <label for="nombreEstudiante">Nombre del Estudiante <span class="required">*</span></label>
+          <input type="text" id="nombreEstudiante" name="NombreEstudiante" placeholder="Nombres y apellidos completos" required />
+          <span class="error-message" id="nombreError">El nombre es obligatorio</span>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Observación <span class="required">*</span></label>
+          <div class="tipo-observacion">
+            <div class="radio-option">
+              <input type="radio" id="academica" name="TipoObservacion" value="Académica" required />
+              <label for="academica">📚 Académica</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="disciplinaria" name="TipoObservacion" value="Disciplinaria" />
+              <label for="disciplinaria">⚠️ Disciplinaria</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="positiva" name="TipoObservacion" value="Positiva" />
+              <label for="positiva">⭐ Positiva</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="convivencia" name="TipoObservacion" value="Convivencia" />
+              <label for="convivencia">🤝 Convivencia</label>
+            </div>
+          </div>
+          <span class="error-message" id="tipoError">Seleccione un tipo de observación</span>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción de la Observación <span class="required">*</span></label>
+          <textarea id="descripcion" name="Descripcion" placeholder="Describa detalladamente la situación observada..." required></textarea>
+          <span class="error-message" id="descripcionError">La descripción es obligatoria</span>
+        </div>
+
+        <div class="form-group">
+          <label for="acciones">Acciones Tomadas</label>
+          <textarea id="acciones" name="AccionesTomadas" placeholder="Describa las acciones correctivas, compromisos o seguimiento (opcional)"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="docente">Docente que Reporta</label>
+          <input type="text" id="docente" name="DocenteReporta" value="Mgtr. Jesús David Álvarez Sáez" readonly style="background-color: #f5f5f5;" />
+        </div>
+
+        <div class="form-group">
+          <label for="firmaEstudiante">Firma del Estudiante <span class="required">*</span></label>
+          <canvas
+            id="firmaEstudiante"
+            width="320"
+            height="100"
+            style="border:1px solid #ccc; border-radius:8px; background:#fff; display:block; margin-bottom:8px;"
+          ></canvas>
+          <input type="hidden" id="firmaData" name="Firma" required />
+          <button type="button" onclick="borrarFirma()" style="margin-bottom: 15px;">Borrar Firma</button>
+          <span class="error-message" id="firmaError">La firma es obligatoria</span>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Registrar Observación</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Fecha actual por defecto
+    document.getElementById('fecha').valueAsDate = new Date();
+
+    const form = document.getElementById('observadorForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
+    const errorAlert = document.getElementById('errorAlert');
+
+    // Canvas firma
+    let canvas = document.getElementById('firmaEstudiante');
+    let firmaData = document.getElementById('firmaData');
+    let firmaError = document.getElementById('firmaError');
+    let dibujando = false,
+      trazos = [];
+
+    // URL de Google Apps Script
+    const scriptURL =
+      'https://script.google.com/macros/s/AKfycbyCRk1P9i6bJ5wBDTqipRfd6-DBCdb0lMqi6ux1LPRgG6Rnl_n0FulG8I8nVVBMprFb/exec';
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      successMessage.style.display = 'none';
+      errorAlert.style.display = 'none';
+
+      // Limpiar mensajes de error
+      const errorMessages = document.querySelectorAll('.error-message');
+      errorMessages.forEach((msg) => (msg.style.display = 'none'));
+
+      let isValid = true;
+
+      if (!document.getElementById('fecha').value) {
+        document.getElementById('fechaError').style.display = 'block';
+        isValid = false;
+      }
+      if (!document.getElementById('grado').value) {
+        document.getElementById('gradoError').style.display = 'block';
+        isValid = false;
+      }
+      if (!document.getElementById('grupo').value) {
+        document.getElementById('grupoError').style.display = 'block';
+        isValid = false;
+      }
+      // Validar jornada
+      if (!document.querySelector('input[name="Jornada"]:checked')) {
+        document.getElementById('jornadaError').style.display = 'block';
+        isValid = false;
+      }
+      const nombre = document.getElementById('nombreEstudiante');
+      if (!nombre.value.trim() || nombre.value.trim().length < 3) {
+        document.getElementById('nombreError').style.display = 'block';
+        document.getElementById('nombreError').textContent = 'El nombre debe tener al menos 3 caracteres';
+        isValid = false;
+      }
+      if (!document.querySelector('input[name="TipoObservacion"]:checked')) {
+        document.getElementById('tipoError').style.display = 'block';
+        isValid = false;
+      }
+      const descripcion = document.getElementById('descripcion');
+      if (!descripcion.value.trim() || descripcion.value.trim().length < 10) {
+        document.getElementById('descripcionError').style.display = 'block';
+        document.getElementById('descripcionError').textContent = 'La descripción debe tener al menos 10 caracteres';
+        isValid = false;
+      }
+      if (!validarFirma()) isValid = false;
+
+      if (!isValid) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Guardando...';
+
+      let formData = new FormData(form);
+
+      // Reemplazamos el campo Firma con texto corto en vez de base64
+      if (firmaData.value.trim() !== '') {
+        formData.set('Firma', 'Firmó');
+      } else {
+        formData.set('Firma', 'No firmó');
+      }
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.result === 'success') {
+            successMessage.style.display = 'block';
+            form.reset();
+            document.getElementById('fecha').valueAsDate = new Date();
+            borrarFirma();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+              successMessage.style.display = 'none';
+            }, 5000);
+          } else {
+            errorAlert.style.display = 'block';
+            errorAlert.textContent = '❌ Error: ' + (data.error || 'No se pudo guardar');
+          }
+        })
+        .catch((error) => {
+          errorAlert.style.display = 'block';
+          errorAlert.textContent = '❌ Error de conexión. Intente nuevamente.';
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Registrar Observación';
         });
-        
-        // Validación en tiempo real para mejorar experiencia del usuario
-        const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
-        inputs.forEach(input => {
-            input.addEventListener('blur', function() {
-                if (this.value.trim() === '') {
-                    this.style.borderColor = '#e74c3c';
-                } else {
-                    this.style.borderColor = '#2ecc71';
-                }
-            });
-            
-            input.addEventListener('input', function() {
-                if (this.value.trim() !== '') {
-                    this.style.borderColor = '#e0e0e0';
-                }
-            });
-        });
-    </script>
+    });
+
+    // Funciones canvas para la firma
+    function getPosicion(e) {
+      if (e.touches && e.touches.length) {
+        return { x: e.touches[0].clientX - canvas.getBoundingClientRect().left, y: e.touches[0].clientY - canvas.getBoundingClientRect().top };
+      }
+      return { x: e.offsetX, y: e.offsetY };
+    }
+    function empezarFirma(e) {
+      e.preventDefault();
+      dibujando = true;
+      trazos.push([]);
+      let pos = getPosicion(e);
+      trazos[trazos.length - 1].push(pos);
+    }
+    function moverFirma(e) {
+      if (!dibujando) return;
+      let pos = getPosicion(e);
+      trazos[trazos.length - 1].push(pos);
+      dibujar();
+    }
+    function terminarFirma(e) {
+      dibujando = false;
+      actualizarCampoFirma();
+    }
+    function dibujar() {
+      let ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#000';
+      for (let trazo of trazos) {
+        ctx.beginPath();
+        for (let i = 0; i < trazo.length; i++) {
+          let p = trazo[i];
+          if (i == 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        }
+        ctx.stroke();
+      }
+    }
+    function borrarFirma() {
+      trazos = [];
+      dibujar();
+      actualizarCampoFirma();
+    }
+    function actualizarCampoFirma() {
+      if (trazos.length === 0) {
+        firmaData.value = '';
+      } else {
+        firmaData.value = canvas.toDataURL();
+      }
+    }
+    function validarFirma() {
+      if (firmaData.value.trim() === '') {
+        firmaError.style.display = 'block';
+        return false;
+      } else {
+        firmaError.style.display = 'none';
+        return true;
+      }
+    }
+
+    canvas.addEventListener('mousedown', empezarFirma);
+    canvas.addEventListener('touchstart', empezarFirma);
+    canvas.addEventListener('mousemove', moverFirma);
+    canvas.addEventListener('touchmove', moverFirma);
+    canvas.addEventListener('mouseup', terminarFirma);
+    canvas.addEventListener('mouseleave', terminarFirma);
+    canvas.addEventListener('touchend', terminarFirma);
+
+    // Validación visual en tiempo real
+    const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+    inputs.forEach((input) => {
+      input.addEventListener('blur', function () {
+        if (this.value.trim() === '') {
+          this.style.borderColor = '#e74c3c';
+        } else {
+          this.style.borderColor = '#2ecc71';
+        }
+      });
+      input.addEventListener('input', function () {
+        if (this.value.trim() !== '') {
+          this.style.borderColor = '#e0e0e0';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
