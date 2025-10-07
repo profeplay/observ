@@ -97,6 +97,12 @@
             gap: 20px;
         }
         
+        .row-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
         select {
             cursor: pointer;
             background-color: white;
@@ -105,6 +111,12 @@
         .tipo-observacion {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .jornada-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
         
@@ -194,7 +206,7 @@
         }
         
         @media (max-width: 768px) {
-            .row {
+            .row, .row-three {
                 grid-template-columns: 1fr;
             }
             
@@ -226,7 +238,7 @@
             </div>
             
             <form id="observadorForm" method="POST">
-                <div class="row">
+                <div class="row-three">
                     <div class="form-group">
                         <label for="fecha">Fecha <span class="required">*</span></label>
                         <input type="date" id="fecha" name="Fecha" required>
@@ -245,27 +257,40 @@
                         </select>
                         <span class="error-message" id="gradoError">Seleccione un grado</span>
                     </div>
-                </div>
-                
-                <div class="row">
+                    
                     <div class="form-group">
                         <label for="grupo">Grupo <span class="required">*</span></label>
                         <select id="grupo" name="Grupo" required>
                             <option value="">Seleccione un grupo</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
+                            <option value="Uno">Uno</option>
+                            <option value="Dos">Dos</option>
+                            <option value="Tres">Tres</option>
+                            <option value="Cuatro">Cuatro</option>
                         </select>
                         <span class="error-message" id="grupoError">Seleccione un grupo</span>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="nombreEstudiante">Nombre del Estudiante <span class="required">*</span></label>
-                        <input type="text" id="nombreEstudiante" name="NombreEstudiante" 
-                               placeholder="Nombres y apellidos completos" required>
-                        <span class="error-message" id="nombreError">El nombre es obligatorio</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Jornada <span class="required">*</span></label>
+                    <div class="jornada-group">
+                        <div class="radio-option">
+                            <input type="radio" id="manana" name="Jornada" value="Mañana" required>
+                            <label for="manana">☀️ Mañana</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="tarde" name="Jornada" value="Tarde">
+                            <label for="tarde">🌙 Tarde</label>
+                        </div>
                     </div>
+                    <span class="error-message" id="jornadaError">Seleccione una jornada</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombreEstudiante">Nombre del Estudiante <span class="required">*</span></label>
+                    <input type="text" id="nombreEstudiante" name="NombreEstudiante" 
+                           placeholder="Nombres y apellidos completos" required>
+                    <span class="error-message" id="nombreError">El nombre es obligatorio</span>
                 </div>
                 
                 <div class="form-group">
@@ -360,6 +385,13 @@
             const grupo = document.getElementById('grupo');
             if (!grupo.value) {
                 document.getElementById('grupoError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validar jornada
+            const jornada = document.querySelector('input[name="Jornada"]:checked');
+            if (!jornada) {
+                document.getElementById('jornadaError').style.display = 'block';
                 isValid = false;
             }
             
